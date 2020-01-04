@@ -11,3 +11,8 @@ xcuserdata
 Utilities/Docker/*.tar.gz
 .swiftpm
 Package.resolved
+build/
+
+Carthage/
+!Carthage.xcodeproj
+Workspace.xcworkspace

@@ -1,0 +1,352 @@
+---
+name: Carthage
+schemes:
+  All:
+    build:
+      targets:
+        # PackageDescription4: build
+        # clibc: build
+        # SPMLibc: build
+        # Basic: build
+        # SPMUtility: build
+        # SourceControl: build
+        SPMLLBuild: build
+        # PackageModel: build
+        # PackageLoading: build
+        # PackageGraph: build
+        # Build: build
+        # Xcodeproj: build
+        # Workspace: build
+        # Commands: build
+        # swift-package: build
+        # swift-build: build
+        # swift-test: build
+        # swift-run: build
+        # swiftpm-xctest-helper: build
+        # TestSupport: build
+        # TestSupportExecutable: build
+  
+targets:
+  PackageDescription4:
+    dependencies: []
+    type: framework
+    platform: macOS
+    sources: Sources/PackageDescription4
+  clibc:
+    dependencies: []
+    type: framework
+    platform: macOS
+    settings:
+      DEFINES_MODULE: 'NO'
+      HEADER_SEARCH_PATHS: 
+        - $(SRCROOT)/Sources/clibc/include
+    sources: Sources/clibc
+  SPMLibc:
+    dependencies:
+    - target: clibc
+    type: framework
+    platform: macOS
+    settings:
+      HEADER_SEARCH_PATHS:
+        - $(SRCROOT)/Sources/clibc/include
+    sources: Sources/SPMLibc
+  Basic:
+    dependencies:
+    - target: SPMLibc
+    type: framework
+    platform: macOS
+    settings:
+      HEADER_SEARCH_PATHS:
+        - $(SRCROOT)/Sources/clibc/include
+      SWIFT_VERSION: 4.2
+    sources: Sources/Basic
+  SPMUtility:
+    dependencies:
+    - target: Basic
+    type: framework
+    platform: macOS
+    settings:
+      HEADER_SEARCH_PATHS:
+        - $(SRCROOT)/Sources/clibc/include
+    sources: Sources/SPMUtility
+  SourceControl:
+    dependencies:
+    - target: Basic
+    - target: SPMUtility
+    type: framework
+    platform: macOS
+    settings:
+      HEADER_SEARCH_PATHS:
+        - $(SRCROOT)/Sources/clibc/include
+      SWIFT_VERSION: 4.2
+    sources: Sources/SourceControl
+  SPMLLBuild:
+    dependencies:
+    - target: Basic
+    - target: SPMUtility
+    - carthage: llbuildSwift
+    - carthage: libllbuild
+    - carthage: llbuildBuildSystem
+    - carthage: llbuildCore
+    - carthage: llbuildBasic
+    - carthage: llvmSupport
+    - carthage: llvmDemangle
+    type: framework
+    platform: macOS
+    settings:
+      HEADER_SEARCH_PATHS:
+        - $(SRCROOT)/Sources/clibc/include
+        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/products/libllbuild/include"
+        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/lib/BuildSystem/include"
+        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/lib/Core/include"
+        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/lib/Basic/include"
+        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/lib/llvm/Support/include"
+        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/lib/llvm/Demangle/include"
+    sources: Sources/SPMLLBuild
+  PackageModel:
+    dependencies:
+    - target: Basic
+    - target: SPMUtility
+    type: framework
+    platform: macOS
+    settings:
+      HEADER_SEARCH_PATHS:
+        - $(SRCROOT)/Sources/clibc/include
+    sources: Sources/PackageModel
+  # PackageLoading:
+  #   dependencies:
+  #   - target: Basic
+  #   - target: PackageModel
+  #   - target: SPMUtility
+  #   - target: SPMLLBuild
+  #   type: framework
+  #   platform: macOS
+  #   settings:
+  #     HEADER_SEARCH_PATHS:
+  #       - $(SRCROOT)/Sources/clibc/include
+  #   sources: Sources/PackageLoading
+  # PackageGraph:
+  #   dependencies:
+  #   - target: Basic
+  #   - target: PackageLoading
+  #   - target: PackageModel
+  #   - target: SourceControl
+  #   - target: SPMUtility
+  #   type: framework
+  #   platform: macOS
+  #   settings:
+  #     HEADER_SEARCH_PATHS:
+  #       - $(SRCROOT)/Sources/clibc/include
+  #   sources: Sources/PackageGraph
+  # Build:
+  #   dependencies:
+  #   - target: Basic
+  #   - target: PackageGraph
+  #   type: framework
+  #   platform: macOS
+  #   settings:
+  #     HEADER_SEARCH_PATHS:
+  #       - $(SRCROOT)/Sources/clibc/include
+  #   sources: Sources/Build
+  # Xcodeproj:
+  #   dependencies:
+  #   - target: Basic
+  #   - target: PackageGraph
+  #   type: framework
+  #   platform: macOS
+  #   settings:
+  #     HEADER_SEARCH_PATHS:
+  #       - $(SRCROOT)/Sources/clibc/include
+  #   sources: Sources/Xcodeproj
+  # Workspace:
+  #   dependencies:
+  #   - target: Basic
+  #   - target: Build
+  #   - target: PackageGraph
+  #   - target: PackageModel
+  #   - target: SourceControl
+  #   - target: Xcodeproj
+  #   type: framework
+  #   platform: macOS
+  #   settings:
+  #     HEADER_SEARCH_PATHS:
+  #       - $(SRCROOT)/Sources/clibc/include
+  #   sources: Sources/Workspace
+  # Commands:
+  #   dependencies:
+  #   - target: Basic
+  #   - target: Build
+  #   - target: PackageGraph
+  #   - target: SourceControl
+  #   - target: SPMUtility
+  #   - target: Xcodeproj
+  #   - target: Workspace
+  #   type: framework
+  #   platform: macOS
+  #   settings:
+  #     HEADER_SEARCH_PATHS:
+  #       - $(SRCROOT)/Sources/clibc/include
+  #   sources: Sources/Commands
+  # swift-package:
+  #   dependencies:
+  #   - target: Commands
+  #   type: application
+  #   platform: macOS
+  #   sources: Sources/swift-package
+  # swift-build:
+  #   dependencies:
+  #   - target: Commands
+  #   type: application
+  #   platform: macOS
+  #   sources: Sources/swift-build
+  # swift-test:
+  #   dependencies:
+  #   - target: Commands
+  #   type: application
+  #   platform: macOS
+  #   sources: Sources/swift-test
+  # swift-run:
+  #   dependencies:
+  #   - target: Commands
+  #   type: application
+  #   platform: macOS
+  #   sources: Sources/swift-run
+  # swiftpm-xctest-helper:
+  #   dependencies: []
+  #   type: application
+  #   platform: macOS
+  #   sources: Sources/swiftpm-xctest-helper
+  # TestSupport:
+  #   dependencies:
+  #   - target: Basic
+  #   - target: PackageGraph
+  #   - target: PackageLoading
+  #   - target: SourceControl
+  #   - target: SPMUtility
+  #   - target: Commands
+  #   type: framework
+  #   platform: macOS
+  #   sources: Sources/TestSupport
+  # TestSupportExecutable:
+  #   dependencies:
+  #   - target: Basic
+  #   - target: SPMUtility
+  #   type: application
+  #   platform: macOS
+  #   sources: Sources/TestSupportExecutable
+
+  # TEST
+
+  # BasicTests:
+  #   dependencies:
+  #   - TestSupport
+  #   - TestSupportExecutable
+  #   type: test
+  #   sources: Sources/BasicTests
+  # BasicPerformanceTests:
+  #   dependencies:
+  #   - Basic
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/BasicPerformanceTests
+  # BuildTests:
+  #   dependencies:
+  #   - Build
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/BuildTests
+  # CommandsTests:
+  #   dependencies:
+  #   - swift-build
+  #   - swift-package
+  #   - swift-test
+  #   - swift-run
+  #   - Commands
+  #   - Workspace
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/CommandsTests
+  # WorkspaceTests:
+  #   dependencies:
+  #   - Workspace
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/WorkspaceTests
+  # FunctionalTests:
+  #   dependencies:
+  #   - swift-build
+  #   - swift-package
+  #   - swift-test
+  #   - Basic
+  #   - SPMUtility
+  #   - PackageModel
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/FunctionalTests
+  # FunctionalPerformanceTests:
+  #   dependencies:
+  #   - swift-build
+  #   - swift-package
+  #   - swift-test
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/FunctionalPerformanceTests
+  # PackageDescription4Tests:
+  #   dependencies:
+  #   - PackageDescription4
+  #   type: test
+  #   sources: Sources/PackageDescription4Tests
+  # PackageLoadingTests:
+  #   dependencies:
+  #   - PackageLoading
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/PackageLoadingTests
+  # PackageLoadingPerformanceTests:
+  #   dependencies:
+  #   - PackageLoading
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/PackageLoadingPerformanceTests
+  # PackageModelTests:
+  #   dependencies:
+  #   - PackageModel
+  #   type: test
+  #   sources: Sources/PackageModelTests
+  # PackageGraphTests:
+  #   dependencies:
+  #   - PackageGraph
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/PackageGraphTests
+  # PackageGraphPerformanceTests:
+  #   dependencies:
+  #   - PackageGraph
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/PackageGraphPerformanceTests
+  # SourceControlTests:
+  #   dependencies:
+  #   - SourceControl
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/SourceControlTests
+  # TestSupportTests:
+  #   dependencies:
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/TestSupportTests
+  # UtilityTests:
+  #   dependencies:
+  #   - SPMUtility
+  #   - TestSupport
+  #   - TestSupportExecutable
+  #   type: test
+  #   sources: Sources/UtilityTests
+  # XcodeprojTests:
+  #   dependencies:
+  #   - Xcodeproj
+  #   - TestSupport
+  #   type: test
+  #   sources: Sources/XcodeprojTests
+
