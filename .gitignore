@@ -16,3 +16,4 @@ build/
 Carthage/
 !Carthage.xcodeproj
 Workspace.xcworkspace
+temp/

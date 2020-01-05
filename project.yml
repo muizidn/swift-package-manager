@@ -1,31 +1,74 @@
 ---
 name: Carthage
 schemes:
-  All:
+  PackageDescription4:
     build:
       targets:
-        # PackageDescription4: build
-        # clibc: build
-        # SPMLibc: build
-        # Basic: build
-        # SPMUtility: build
-        # SourceControl: build
+        PackageDescription4: build
+  clibc:
+    build:
+      targets:
+        clibc: build
+  SPMLibc:
+    build:
+      targets:
+        SPMLibc: build
+  Basic:
+    build:
+      targets:
+        Basic: build
+  SPMUtility:
+    build:
+      targets:
+        SPMUtility: build
+  SourceControl:
+    build:
+      targets:
+        SourceControl: build
+  SPMLLBuild:
+    build:
+      targets:
         SPMLLBuild: build
-        # PackageModel: build
-        # PackageLoading: build
-        # PackageGraph: build
-        # Build: build
-        # Xcodeproj: build
-        # Workspace: build
-        # Commands: build
-        # swift-package: build
-        # swift-build: build
-        # swift-test: build
-        # swift-run: build
-        # swiftpm-xctest-helper: build
-        # TestSupport: build
-        # TestSupportExecutable: build
-  
+  PackageModel:
+    build:
+      targets:
+        PackageModel: build
+  PackageLoading:
+    build:
+      targets:
+        PackageLoading: build
+  PackageGraph:
+    build:
+      targets:
+        PackageGraph: build
+  Build:
+    build:
+      targets:
+        Build: build
+  Xcodeproj:
+    build:
+      targets:
+        Xcodeproj: build
+  Workspace:
+    build:
+      targets:
+        Workspace: build
+  Commands:
+    build:
+      targets:
+        Commands: build
+  swift-package:
+    build:
+      targets:
+        swift-package: build
+  swift-build:
+    build:
+      targets:
+        swift-build: build
+  swift-run:
+    build:
+      targets:
+        swift-run: build
 targets:
   PackageDescription4:
     dependencies: []
@@ -37,14 +80,17 @@ targets:
     type: framework
     platform: macOS
     settings:
-      HEADER_SEARCH_PATHS: 
-        - $(SRCROOT)/Sources/clibc/include
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+      INFOPLIST_FILE: plist/Info.plist
       MODULEMAP_FILE:
         - $(SRCROOT)/Sources/clibc/include/module.modulemap
     sources: Sources/clibc
   SPMLibc:
     dependencies:
     - target: clibc
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+      INFOPLIST_FILE: plist/Info.plist
     type: framework
     platform: macOS
     sources: Sources/SPMLibc
@@ -54,11 +100,16 @@ targets:
     type: framework
     platform: macOS
     settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+      INFOPLIST_FILE: plist/Info.plist
       SWIFT_VERSION: 4.2
     sources: Sources/Basic
   SPMUtility:
     dependencies:
     - target: Basic
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+      INFOPLIST_FILE: plist/Info.plist
     type: framework
     platform: macOS
     sources: Sources/SPMUtility
@@ -69,6 +120,7 @@ targets:
     type: framework
     platform: macOS
     settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
       SWIFT_VERSION: 4.2
     sources: Sources/SourceControl
   SPMLLBuild:
@@ -82,258 +134,121 @@ targets:
     - carthage: llbuildBasic
     - carthage: llvmSupport
     - carthage: llvmDemangle
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+      INFOPLIST_FILE: plist/Info.plist
     type: framework
     platform: macOS
-    settings:
-      HEADER_SEARCH_PATHS:
-        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/products/libllbuild/include"
-        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/lib/BuildSystem/include"
-        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/lib/Core/include"
-        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/lib/Basic/include"
-        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/lib/llvm/Support/include"
-        - "$(SRCROOT)/Carthage/Checkouts/swift-llbuild/lib/llvm/Demangle/include"
     sources: Sources/SPMLLBuild
   PackageModel:
     dependencies:
     - target: Basic
     - target: SPMUtility
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
     type: framework
     platform: macOS
     sources: Sources/PackageModel
-  # PackageLoading:
-  #   dependencies:
-  #   - target: Basic
-  #   - target: PackageModel
-  #   - target: SPMUtility
-  #   - target: SPMLLBuild
-  #   type: framework
-  #   platform: macOS
-  #   settings:
-  #     HEADER_SEARCH_PATHS:
-  #       - ""
-  #   sources: Sources/PackageLoading
-  # PackageGraph:
-  #   dependencies:
-  #   - target: Basic
-  #   - target: PackageLoading
-  #   - target: PackageModel
-  #   - target: SourceControl
-  #   - target: SPMUtility
-  #   type: framework
-  #   platform: macOS
-  #   settings:
-  #     HEADER_SEARCH_PATHS:
-  #       - ""
-  #   sources: Sources/PackageGraph
-  # Build:
-  #   dependencies:
-  #   - target: Basic
-  #   - target: PackageGraph
-  #   type: framework
-  #   platform: macOS
-  #   settings:
-  #     HEADER_SEARCH_PATHS:
-  #       - ""
-  #   sources: Sources/Build
-  # Xcodeproj:
-  #   dependencies:
-  #   - target: Basic
-  #   - target: PackageGraph
-  #   type: framework
-  #   platform: macOS
-  #   settings:
-  #     HEADER_SEARCH_PATHS:
-  #       - ""
-  #   sources: Sources/Xcodeproj
-  # Workspace:
-  #   dependencies:
-  #   - target: Basic
-  #   - target: Build
-  #   - target: PackageGraph
-  #   - target: PackageModel
-  #   - target: SourceControl
-  #   - target: Xcodeproj
-  #   type: framework
-  #   platform: macOS
-  #   settings:
-  #     HEADER_SEARCH_PATHS:
-  #       - ""
-  #   sources: Sources/Workspace
-  # Commands:
-  #   dependencies:
-  #   - target: Basic
-  #   - target: Build
-  #   - target: PackageGraph
-  #   - target: SourceControl
-  #   - target: SPMUtility
-  #   - target: Xcodeproj
-  #   - target: Workspace
-  #   type: framework
-  #   platform: macOS
-  #   settings:
-  #     HEADER_SEARCH_PATHS:
-  #       - ""
-  #   sources: Sources/Commands
-  # swift-package:
-  #   dependencies:
-  #   - target: Commands
-  #   type: application
-  #   platform: macOS
-  #   sources: Sources/swift-package
-  # swift-build:
-  #   dependencies:
-  #   - target: Commands
-  #   type: application
-  #   platform: macOS
-  #   sources: Sources/swift-build
-  # swift-test:
-  #   dependencies:
-  #   - target: Commands
-  #   type: application
-  #   platform: macOS
-  #   sources: Sources/swift-test
-  # swift-run:
-  #   dependencies:
-  #   - target: Commands
-  #   type: application
-  #   platform: macOS
-  #   sources: Sources/swift-run
-  # swiftpm-xctest-helper:
-  #   dependencies: []
-  #   type: application
-  #   platform: macOS
-  #   sources: Sources/swiftpm-xctest-helper
-  # TestSupport:
-  #   dependencies:
-  #   - target: Basic
-  #   - target: PackageGraph
-  #   - target: PackageLoading
-  #   - target: SourceControl
-  #   - target: SPMUtility
-  #   - target: Commands
-  #   type: framework
-  #   platform: macOS
-  #   sources: Sources/TestSupport
-  # TestSupportExecutable:
-  #   dependencies:
-  #   - target: Basic
-  #   - target: SPMUtility
-  #   type: application
-  #   platform: macOS
-  #   sources: Sources/TestSupportExecutable
-
-  # TEST
-
-  # BasicTests:
-  #   dependencies:
-  #   - TestSupport
-  #   - TestSupportExecutable
-  #   type: test
-  #   sources: Sources/BasicTests
-  # BasicPerformanceTests:
-  #   dependencies:
-  #   - Basic
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/BasicPerformanceTests
-  # BuildTests:
-  #   dependencies:
-  #   - Build
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/BuildTests
-  # CommandsTests:
-  #   dependencies:
-  #   - swift-build
-  #   - swift-package
-  #   - swift-test
-  #   - swift-run
-  #   - Commands
-  #   - Workspace
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/CommandsTests
-  # WorkspaceTests:
-  #   dependencies:
-  #   - Workspace
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/WorkspaceTests
-  # FunctionalTests:
-  #   dependencies:
-  #   - swift-build
-  #   - swift-package
-  #   - swift-test
-  #   - Basic
-  #   - SPMUtility
-  #   - PackageModel
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/FunctionalTests
-  # FunctionalPerformanceTests:
-  #   dependencies:
-  #   - swift-build
-  #   - swift-package
-  #   - swift-test
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/FunctionalPerformanceTests
-  # PackageDescription4Tests:
-  #   dependencies:
-  #   - PackageDescription4
-  #   type: test
-  #   sources: Sources/PackageDescription4Tests
-  # PackageLoadingTests:
-  #   dependencies:
-  #   - PackageLoading
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/PackageLoadingTests
-  # PackageLoadingPerformanceTests:
-  #   dependencies:
-  #   - PackageLoading
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/PackageLoadingPerformanceTests
-  # PackageModelTests:
-  #   dependencies:
-  #   - PackageModel
-  #   type: test
-  #   sources: Sources/PackageModelTests
-  # PackageGraphTests:
-  #   dependencies:
-  #   - PackageGraph
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/PackageGraphTests
-  # PackageGraphPerformanceTests:
-  #   dependencies:
-  #   - PackageGraph
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/PackageGraphPerformanceTests
-  # SourceControlTests:
-  #   dependencies:
-  #   - SourceControl
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/SourceControlTests
-  # TestSupportTests:
-  #   dependencies:
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/TestSupportTests
-  # UtilityTests:
-  #   dependencies:
-  #   - SPMUtility
-  #   - TestSupport
-  #   - TestSupportExecutable
-  #   type: test
-  #   sources: Sources/UtilityTests
-  # XcodeprojTests:
-  #   dependencies:
-  #   - Xcodeproj
-  #   - TestSupport
-  #   type: test
-  #   sources: Sources/XcodeprojTests
-
+  PackageLoading:
+    dependencies:
+    - target: Basic
+    - target: PackageModel
+    - target: SPMUtility
+    - target: SPMLLBuild
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+    type: framework
+    platform: macOS
+    sources: Sources/PackageLoading
+  PackageGraph:
+    dependencies:
+    - target: Basic
+    - target: PackageLoading
+    - target: PackageModel
+    - target: SourceControl
+    - target: SPMUtility
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+    type: framework
+    platform: macOS
+    sources: Sources/PackageGraph
+  Build:
+    dependencies:
+    - target: Basic
+    - target: PackageGraph
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+    type: framework
+    platform: macOS
+    sources: Sources/Build
+  Xcodeproj:
+    dependencies:
+    - target: Basic
+    - target: PackageGraph
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+    type: framework
+    platform: macOS
+    sources: Sources/Xcodeproj
+  Workspace:
+    dependencies:
+    - target: Basic
+    - target: Build
+    - target: PackageGraph
+    - target: PackageModel
+    - target: SourceControl
+    - target: Xcodeproj
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+    type: framework
+    platform: macOS
+    sources: Sources/Workspace
+  Commands:
+    dependencies:
+    - target: Basic
+    - target: Build
+    - target: PackageGraph
+    - target: SourceControl
+    - target: SPMUtility
+    - target: Xcodeproj
+    - target: Workspace
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+      INFOPLIST_FILE: plist/Info.plist
+    type: framework
+    platform: macOS
+    sources: Sources/Commands
+  swift-package:
+    dependencies:
+    - target: Commands
+    type: application
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+    platform: macOS
+    sources: Sources/swift-package
+    scheme:
+      gatherCoverageData: true
+      commandLineArguments:
+        "--help": false
+        "generate-xcodeproj": true
+        "--package-path=${PWD}/temp/spm": true
+      environmentVariables:
+        - variable: SWIFTPM_CUSTOM_BINDIR
+          value: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+          isEnabled: true
+  swift-build:
+    dependencies:
+    - target: Commands
+    type: application
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+    platform: macOS
+    sources: Sources/swift-build
+  swift-run:
+    dependencies:
+    - target: Commands
+    type: application
+    settings:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
+    platform: macOS
+    sources: Sources/swift-run

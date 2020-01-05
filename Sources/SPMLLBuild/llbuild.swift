@@ -11,9 +11,9 @@
 // We either export the llbuildSwift shared library or the llbuild framework.
 #if canImport(llbuildSwift)
 @_exported import llbuildSwift
-@_exported import llbuild
+@_exported import libllbuild
 #else
-@_exported import llbuild
+@_exported import libllbuild
 #endif
 
 import Foundation
